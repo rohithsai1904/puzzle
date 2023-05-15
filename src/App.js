@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import {Login} from "./Login";
+import {Register} from "./Register";
+import React, { useState } from "react";
 import './App.css';
+import { BrowserRouter as Router,Routes, Route, Link } from 'react-router-dom';
+import {Welcome} from "./Welcome";
+import {Stages} from "./stage1";
+
 
 function App() {
+  const [currentForm, setCurrentForm] = useState('login');
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+            <Route path="/" element={currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />} />  
+            <Route path="/welcome" element={<Welcome/>}/>
+            <Route path="/game" element={<Stages/>}/>
+      </Routes>
+      </Router>
     </div>
   );
 }
